@@ -25,16 +25,17 @@ public class ServerManager {
     }
 
 
-    private void doMath(){
+    private void doMath() {
         getMax();
         calculateDailyBandwidth();
         calculateServersEachDay();
         params.avgServers = calculateAverageViews() *
-                params.videoQuality / 24.0 /60 /
+                params.videoQuality / 24.0 / 60 /
                 params.maxBandwidth * params.videoLength
                 * params.peakLoadMultiplier;
 
     }
+
     private void readInput(File file) throws IOException {
         Scanner input = new Scanner(new FileReader(file));
 
@@ -46,6 +47,7 @@ public class ServerManager {
 
         input.close();
     }
+
     private int calculateAverageViews() {
         int avg, views = 0, num = 0;
 
@@ -60,6 +62,7 @@ public class ServerManager {
         System.err.println("Average Views: " + avg);
         return avg;
     }
+
     private void getMax() {
 
 
@@ -70,11 +73,13 @@ public class ServerManager {
         }
         System.err.println("Max Views: " + params.maxViews + "\n");
     }
+
     private void calculateDailyBandwidth() {
         for (int i = 0; i < 31; i++) {
-            params.bandwidthPerDay[i] = ((params.predictedUsers[i] * params.videoQuality) / 24 / 60 *params.videoLength);
+            params.bandwidthPerDay[i] = ((params.predictedUsers[i] * params.videoQuality) / 24 / 60 * params.videoLength);
         }
     }
+
     private void calculateServersEachDay() {
         for (int i = 0; i < 31; i++) {
             params.serversPerDay[i] = (params.bandwidthPerDay[i] / params.maxBandwidth);
