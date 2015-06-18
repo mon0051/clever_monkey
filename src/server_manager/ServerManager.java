@@ -46,9 +46,6 @@ public class ServerManager {
 
         calculateServersPerDay();
 
-        calculateOnDemandCost();
-        calculateCombinedCost();
-        lowestCost = calculateLowestCost();
     }
 
     static void readInput(File file) throws FileNotFoundException, IOException {
