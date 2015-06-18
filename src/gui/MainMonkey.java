@@ -2,6 +2,11 @@ package gui;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import server_manager.ServerManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,17 +15,17 @@ import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class Main extends Application {
-    
+public class MainMonkey extends Application {
+    @FXML private Label outputArea;
+
     File fileName = new File("/home/mon/monkey_vault.csv");
     public Stage mainStage;
-    ServerManager sm = new ServerManager();
+    ServerManager serverManager = new ServerManager();
     
     
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
-        
         mainStage = primaryStage;
         primaryStage.setTitle("Clever Monkey Video View Data Analizer");
         primaryStage.setScene(new Scene(root, 300, 275));
@@ -35,7 +40,11 @@ public class Main extends Application {
     }
     public void analizeData(){
         try{
-            ServerManager.findValue(fileName);
+           serverManager.findValue(fileName);
+            String outputText = "";
+            outputText += "We Recommend using " + serverManager.params.getAvgServers() + " reserved Server Instances\n";
+            outputText += "The remaining should be on demand servers";
+            outputArea.setText(outputText);
         }catch(FileNotFoundException e){
             System.err.print("File Not Found"+e.getMessage());
         }catch(IOException e){
@@ -45,5 +54,9 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void exitApp(ActionEvent actionEvent) {
+        Platform.exit();
     }
 }

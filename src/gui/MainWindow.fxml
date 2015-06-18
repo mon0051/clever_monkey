@@ -8,7 +8,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Main">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainMonkey">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -16,33 +16,17 @@
           <items>
             <MenuItem fx:id="pickFileButton" mnemonicParsing="false" onAction="#getFileName" text="Select Data File" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+            <MenuItem mnemonicParsing="false" onAction="#exitApp" text="Quit" />
           </items>
         </Menu>
       </menus>
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Pane layoutX="236.0" layoutY="77.0" prefHeight="200.0" prefWidth="363.0" styleClass="results-display-area" stylesheets="@MainWindow.css" />
+            <Pane layoutX="236.0" layoutY="77.0" prefHeight="200.0" prefWidth="363.0" styleClass="results-display-area" stylesheets="@MainWindow.css">
+               <children>
+                  <Label fx:id="outputArea" layoutX="17.0" layoutY="15.0" text="Data Will be displayed here" />
+               </children></Pane>
             <Button layoutX="62.0" layoutY="161.0" mnemonicParsing="false" onAction="#analizeData" text="Analize Data">
                <font>
                   <Font size="16.0" />
