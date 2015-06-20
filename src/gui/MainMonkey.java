@@ -28,7 +28,7 @@ public class MainMonkey extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
         mainStage = primaryStage;
         primaryStage.setTitle("Clever Monkey Video View Data Analizer");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 640, 400));
         primaryStage.show();
     }
     
@@ -42,8 +42,12 @@ public class MainMonkey extends Application {
         try{
            serverManager.findValue(fileName);
             String outputText = "";
-            outputText += "We Recommend using " + serverManager.params.getAvgServers() + " reserved Server Instances\n";
-            outputText += "The remaining should be on demand servers";
+            outputText += "Reserved Server Price: $"+serverManager.params.getReservedHourlyCost()+" per hour\n";
+            outputText += "On Demand Server Price : $"+serverManager.params.getOnDemandHourlyCost()+" per hour\n";
+            outputText += "We Recommend using " + (int)serverManager.params.getAvgServers() + " reserved Server Instances\n";
+            outputText += "The remaining "+(int)(serverManager.params.getAvgServers()*0.5)+ " servers should be on Demand Servers\n";
+            outputText += "Which will only run during peak times\n";
+            outputText += "Estimated Cost = $" + (serverManager.getEstimatedCost())+" per hour";
             outputArea.setText(outputText);
         }catch(FileNotFoundException e){
             System.err.print("File Not Found"+e.getMessage());

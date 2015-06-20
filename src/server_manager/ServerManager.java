@@ -31,60 +31,61 @@ public class ServerManager {
         calculateServersEachDay();
         params.avgServers = calculateAverageViews() *
                 params.videoQuality / 24.0 / 60 /
-                params.maxBandwidth * params.videoLength
+                params.bandwidthPerServer * params.videoLength
                 * params.peakLoadMultiplier;
 
     }
 
     private void readInput(File file) throws IOException {
+        params.predictedUsers.clear();
         Scanner input = new Scanner(new FileReader(file));
-
-        for (int i = 0; i < 31; i++) {
-            if (input.hasNextLine()) {
-                params.predictedUsers[i] = input.nextInt();
-            }
+        while(input.hasNextLine()){
+            params.predictedUsers.add(input.nextInt());
         }
-
         input.close();
     }
 
-    private int calculateAverageViews() {
-        int avg, views = 0, num = 0;
-
-        for (int i = 0; i < 31; i++) {
-            if (params.predictedUsers[i] != 0) {
-                num++;
-                views += params.predictedUsers[i];
-            }
+    private double calculateAverageViews() {
+        double avg, views = 0, num = 0;
+        for(double dailyViews : params.predictedUsers){
+            num++;
+            views += dailyViews;
         }
-
         avg = (views / num);
         System.err.println("Average Views: " + avg);
         return avg;
     }
 
     private void getMax() {
-
-
-        for (int i = 0; i < 31; i++) {
-            if (params.predictedUsers[i] > params.maxViews) {
-                params.maxViews = params.predictedUsers[i];
+        params.maxViews = 0;
+        for(Integer dailyUsers : params.predictedUsers){
+            if (dailyUsers > params.maxViews) {
+                params.maxViews = dailyUsers;
             }
         }
         System.err.println("Max Views: " + params.maxViews + "\n");
     }
 
     private void calculateDailyBandwidth() {
-        for (int i = 0; i < 31; i++) {
-            params.bandwidthPerDay[i] = ((params.predictedUsers[i] * params.videoQuality) / 24 / 60 * params.videoLength);
+        params.bandwidthPerDay.clear();
+        for(Integer dailyUsers : params.predictedUsers){
+            Double dailyBandwidth = dailyUsers * (double)params.videoQuality * params.videoLength /24 /60;
+            params.bandwidthPerDay.add(dailyBandwidth);
         }
     }
 
     private void calculateServersEachDay() {
-        for (int i = 0; i < 31; i++) {
-            params.serversPerDay[i] = (params.bandwidthPerDay[i] / params.maxBandwidth);
-            System.err.print(params.serversPerDay[i]);
+        for(Double dailyBandwidth : params.bandwidthPerDay){
+            params.serversPerDay.clear();
+            params.serversPerDay.add(dailyBandwidth / params.bandwidthPerServer);
         }
     }
 
+    public Double getEstimatedCost() {
+        Double cost = (params.reservedHourlyCost * params.getAvgServers());
+        cost += (params.getAvgServers()*0.7)*0.3;
+
+        return cost;
+
+    }
 }

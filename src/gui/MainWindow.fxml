@@ -27,7 +27,7 @@
                <children>
                   <Label fx:id="outputArea" layoutX="17.0" layoutY="15.0" text="Data Will be displayed here" />
                </children></Pane>
-            <Button layoutX="62.0" layoutY="161.0" mnemonicParsing="false" onAction="#analizeData" text="Analize Data">
+            <Button layoutX="62.0" layoutY="161.0" mnemonicParsing="false" onAction="#analizeData" text="Analyze Data">
                <font>
                   <Font size="16.0" />
                </font>
